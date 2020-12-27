@@ -20,7 +20,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      city: "",
+      city: "tehran",
       data:[],
       icon:"",
       city_display:"",
@@ -34,7 +34,7 @@ export default class App extends React.Component {
   }
   //Arrow Function
   fetch_weather=()=>{
-    fetch("http://api.openweathermap.org/data/2.5/weather?q=ahvaz&units=metric&appid=5a873b6b606d9e2aa79aff040a0e7d63")
+    fetch('http://api.openweathermap.org/data/2.5/weather?q='+this.state.city+'&units=metric&appid=5a873b6b606d9e2aa79aff040a0e7d63')
     .then((response) => response.json())
     .then((json => {
       this.setState({data:json})
@@ -45,7 +45,7 @@ export default class App extends React.Component {
       this.setState({ main : json.weather[0].main})
       this.setState({ humidity : json.main.humidity+ " %"})
       this.setState({ pressure : json.main.pressure+ " hPa"})
-      this.setState({ visibility : (json.main.visibility/1000).toFixed(2)+ " Km"})
+      this.setState({ visibility : (json.visibility/1000).toFixed(2)+ " Km"})
     })).catch((error)=>console.error(error))
    
   }
@@ -63,10 +63,9 @@ export default class App extends React.Component {
               placeholder="Search"
               placeholderTextColor="#FFF"
               style={styles.Search_Box}
-              onChangeText={(text) => this.setState({ city: text })}
-            />
+              onChangeText={(text)=>this.setState({city:text})}/>
 
-            <TouchableOpacity style={styles.button_touch}>
+            <TouchableOpacity style={styles.button_touch} onPress={this.fetch_weather}>
               <Icon name="search1" size={24} color="#FFF" />
             </TouchableOpacity>
           </View>
